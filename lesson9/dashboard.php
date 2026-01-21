@@ -15,5 +15,32 @@
 ?>
 
 
+<br><br>
+
+<table>
+    <thead>
+
+     <th>ID</th>
+     <th>Name</th>
+    <th>surname</th>
+    <th>email</th>
+    </thead>
+
+    <tbody>
+        <?php 
+            foreach ($users as $user):
+            ?>
+            <tr>
+                <td><?= $user['id'] ?></td>
+                <td><?= $user['name'] ?></td>
+                <td><?= $user['surname'] ?></td>
+                <td><?= $user['email'] ?></td>
+                <td><a href="delete.php?id= $user[id]'> Delete</a>| <a href='edit.php?id=$user[id]'>uptade</a> "?></td>
+            </tr>
+            
+      
+    </tbody>
+</table>
+<a href="add.php">add user</a>
 </body>
 </html>
