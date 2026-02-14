@@ -1,0 +1,14 @@
+<?php
+require "database.php";
+
+if (isset($_GET['id']) && isset($_SESSION['user_id'])) {
+
+    $id = $_GET['id'];
+    $user_id = $_SESSION['user_id'];
+
+    $stmt = $conn->prepare("DELETE FROM tasks WHERE id = ? AND user_id = ?");
+    $stmt->execute([$id, $user_id]);
+}
+
+header("Location: index.php");
+exit();

@@ -12,7 +12,7 @@
         echo("conected");
 
 
-    }catch(PDOExecption $e){
+    }catch(PDOException $e){
         echo "error" . $e->getMessage();
 
     }
