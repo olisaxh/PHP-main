@@ -1,16 +1,13 @@
 <?php
-require_once "config.php";
+$host = "localhost";
+$dbname = "db_project";
+$username = "root";
+$password = "";
 
 try {
-    $conn = new PDO(
-        "mysql:host=localhost" ,
-        ";dbname=task_db",
-         ""
-    );
-
+    $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
 } catch(PDOException $e) {
-    die("Database connection failed: " . $e->getMessage());
+    die("Gabim ne lidhje: " . $e->getMessage());
 }
 ?>

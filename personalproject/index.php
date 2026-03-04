@@ -1,29 +1,48 @@
+<?php include 'database.php'; ?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Task Manager</title>
+    <title>Student Manager</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div class="container">
+<h1>Student Manager</h1>
 
-<h2>My Tasks</h2>
+<a href="add.php"><button>Shto Student</button></a>
 
-<a href="logout.php">Logout</a>
+<br><br>
 
-<form action="add_task.php" method="POST">
-    <input type="text" name="title" placeholder="New Task" required>
-    <button type="submit">Add Task</button>
-</form>
+<table>
+<tr>
+    <th>ID</th>
+    <th>Emri</th>
+    <th>Email</th>
+    <th>Mosha</th>
+    <th>Veprime</th>
+</tr>
 
-<?php foreach($tasks as $task): ?>
-    <div class="task">
-        <span><?= htmlspecialchars($task['title']) ?></span>
-        <a href="delete_task.php?id=<?= $task['id'] ?>">Delete</a>
-    </div>
-<?php endforeach; ?>
+<?php
+$stmt = $conn->query("SELECT * FROM students ORDER BY id DESC");
+$students = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+foreach ($students as $student) {
+    echo "<tr>";
+    echo "<td>".$student['id']."</td>";
+    echo "<td>".$student['name']."</td>";
+    echo "<td>".$student['email']."</td>";
+    echo "<td>".$student['age']."</td>";
+    echo "<td>
+            <a class='edit' href='edit.php?id=".$student['id']."'>Edit</a>
+            <a class='delete' href='delete.php?id=".$student['id']."'>Delete</a>
+          </td>";
+    echo "</tr>";
+}
+?>
+
+</table>
 </div>
+
 </body>
 </html>
