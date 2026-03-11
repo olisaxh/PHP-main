@@ -1,13 +1,21 @@
 <?php
-$host = "localhost";
-$dbname = "db_project";
-$username = "root";
-$password = "";
+    $user="root";
+    $pass="";
+    $server="localhost";
+    $dbname="db_blog";
 
-try {
-    $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch(PDOException $e) {
-    die("Gabim ne lidhje: " . $e->getMessage());
-}
+
+    try{
+
+        //jena tu u lidhe me databaz me PDO connect
+        $conn= new PDO("mysql:host=$server;dbname=$dbname",$user,$pass);
+        echo("conected");
+
+
+    }catch(PDOException $e){
+        echo "error" . $e->getMessage();
+
+    }
+
+
 ?>

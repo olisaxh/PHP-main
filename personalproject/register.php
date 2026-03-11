@@ -1,34 +1,41 @@
 <?php
 include 'database.php';
 session_start();
+$error = "";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['username'];
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = trim($_POST['username'] ?? '');
+    $password = $_POST['password'] ?? '';
 
-    $sql = "INSERT INTO users (username, password) VALUES (:username, :password)";
-    $stmt = $conn->prepare($sql);
+    $hash = password_hash($password, PASSWORD_DEFAULT);
 
+    $stmt = $conn->prepare("INSERT INTO users (username, password) VALUES (:username, :password)");
     try {
-        $stmt->execute([
-            ':username' => $username,
-            ':password' => $password
-        ]);
+        $stmt->execute([':username'=>$username, ':password'=>$hash]);
         header("Location: login.php");
+        exit();
     } catch(PDOException $e) {
-        echo "Username already taken.";
+        $error = "Username already taken.";
     }
 }
 ?>
 
-<link rel="stylesheet" href="style.css">
-
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Register</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
 <div class="container">
-<h2>Register</h2>
+<h2>Admin Register</h2>
+<?php if($error) echo "<p style='color:red;'>$error</p>"; ?>
 <form method="POST">
     <input type="text" name="username" placeholder="Username" required>
     <input type="password" name="password" placeholder="Password" required>
-    <button type="submit">Register</button>
+    <button type="submit" class="btn btn-success">Register</button>
 </form>
-<a href="login.php">Already have account? Login</a>
+<a href="login.php">Login</a>
 </div>
+</body>
+</html>

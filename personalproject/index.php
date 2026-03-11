@@ -1,47 +1,32 @@
-<?php include 'database.php'; ?>
+<?php
+include 'database.php';
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Student Manager</title>
+    <title>My Blog</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div class="container">
-<h1>Student Manager</h1>
-
-<a href="add.php"><button>Shto Student</button></a>
-
-<br><br>
-
-<table>
-<tr>
-    <th>ID</th>
-    <th>Emri</th>
-    <th>Email</th>
-    <th>Mosha</th>
-    <th>Veprime</th>
-</tr>
+<h1>My Blog</h1>
 
 <?php
-$stmt = $conn->query("SELECT * FROM students ORDER BY id DESC");
-$students = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$stmt = $conn->query("SELECT posts.*, users.username FROM posts LEFT JOIN users ON posts.user_id = users.id ORDER BY created_at DESC");
+$posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-foreach ($students as $student) {
-    echo "<tr>";
-    echo "<td>".$student['id']."</td>";
-    echo "<td>".$student['name']."</td>";
-    echo "<td>".$student['email']."</td>";
-    echo "<td>".$student['age']."</td>";
-    echo "<td>
-            <a class='edit' href='edit.php?id=".$student['id']."'>Edit</a>
-            <a class='delete' href='delete.php?id=".$student['id']."'>Delete</a>
-          </td>";
-    echo "</tr>";
+foreach ($posts as $post) {
+    echo "<div class='card'>";
+    echo "<h2><a href='post.php?id=".$post['id']."'>".htmlspecialchars($post['title'])."</a></h2>";
+    echo "<p>by ".htmlspecialchars($post['username'] ?? 'Unknown')." on ".$post['created_at']."</p>";
+    echo "<p>".substr(strip_tags($post['content']), 0, 200)."...</p>";
+    echo "<a href='post.php?id=".$post['id']."' class='btn btn-primary'>Read More</a>";
+    echo "</div>";
 }
 ?>
 
-</table>
 </div>
 
 </body>

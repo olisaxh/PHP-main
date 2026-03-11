@@ -1,10 +1,21 @@
 <?php
-// Start session
-session_start();
+    $user="root";
+    $pass="";
+    $server="localhost";
+    $dbname="db_blog";
 
-// Database configuration
-define("DB_HOST", "localhost");
-define("DB_NAME", "db_project");
-define("DB_USER", "root");
-define("DB_PASS", "");
+
+    try{
+
+        //jena tu u lidhe me databaz me PDO connect
+        $conn= new PDO("mysql:host=$server;dbname=$dbname",$user,$pass);
+        echo("conected");
+
+
+    }catch(PDOException $e){
+        echo "error" . $e->getMessage();
+
+    }
+
+
 ?>
